@@ -7,6 +7,15 @@ async function getProjects() {
   return projectRows;
 }
 
+function addProject(newProject) {
+  return db("projects")
+    .insert(newProject)
+    .then(([id]) => {
+      return db("projects").where("project_id", id).first();
+    });
+}
+
 module.exports = {
   getProjects,
+  addProject,
 };

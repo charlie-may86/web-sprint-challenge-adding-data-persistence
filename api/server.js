@@ -5,14 +5,19 @@ server.use(express.json());
 
 //project router
 const projectRouter = require("./project/router");
-server.use("/api/project", projectRouter);
+server.use("/api/projects", projectRouter);
 
 //resource router
 const resourceRouter = require("./resource/router");
-server.use("/api/resource", resourceRouter);
+server.use("/api/resources", resourceRouter);
 
-server.use("*", (req, res) => {
-  res.json({ api: "up" });
+//task router
+const taskRouter = require("./task/router");
+server.use("/api/tasks", taskRouter);
+
+server.use("*", (req, res, next) => {
+  console.log(`hitting${req.method} and ${req.baseUrl}`);
+  next({ status: 404, message: "not found" });
 });
 
 server.use((err, req, res) => {

@@ -11,4 +11,17 @@ router.get("/", (req, res, next) => {
     .catch(next);
 });
 
+router.post("/", (req, res, next) => {
+  const newProject = req.body;
+
+  Project.addProject(newProject)
+    .then((newProject) => {
+      res.status(201).json({
+          ...newProject,
+          project_completed: newProject.project_completed === 1 ? true:false
+      });
+    })
+    .catch(next);
+});
+
 module.exports = router;

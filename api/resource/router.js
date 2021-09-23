@@ -4,9 +4,22 @@ const router = express.Router();
 const Resource = require("./model");
 
 router.get("/", (req, res, next) => {
-  Resource.get()
+  Resource.getResources()
     .then((projects) => {
       res.status(200).json(projects);
+    })
+    .catch(next);
+});
+
+router.post("/", (req, res, next) => {
+  const newResource = req.body;
+
+  Resource.addResource(newResource)
+    .then((newResource) => {
+      res.status(201).json({
+        ...newResource,
+        project_completed: newResource.project_completed === 1 ? true : false,
+      });
     })
     .catch(next);
 });
